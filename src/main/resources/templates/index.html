@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#httpServletRequest.getContextPath()+'/'}">
+    <meta charset="UTF-8">
+    <title>测试表单重复功能</title>
+</head>
+<body>
+
+
+<td colspan="1"><button type="button" onclick="add()">加购</button></td>
+
+
+</body>
+
+<script src="/jquery-1.11.3.min.js"></script>
+<script th:inline="javascript">
+
+
+    function add(){
+        //取得token参数
+        var token = [[${token}]];
+        console.log("获取到的token:" + token);
+        $.ajax({
+            type: 'POST',
+            url: "/test",
+            data: {},
+            headers: {
+                "token":token,
+            },
+            // dataType: "json",
+            success: function(response){
+                alert(response);
+            },
+            error:function(response){
+                alert(response);
+                console.log(response);
+            }
+        });
+    }
+
+</script>
+
+
+</html>
