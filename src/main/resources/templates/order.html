@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="${#httpServletRequest.getContextPath()+'/'}">
+    <meta charset="UTF-8">
+    <title>测试表单重复功能</title>
+</head>
+<body>
+
+
+<td colspan="1"><button type="button" onclick="add()">下单</button></td>
+
+
+</body>
+
+<script src="/jquery-1.11.3.min.js"></script>
+<script th:inline="javascript">
+
+
+    function add(){
+
+        $.ajax({
+            type: 'POST',
+            url: "/testAop",
+            data: {},
+
+            // dataType: "json",
+            success: function(response){
+                console.log(response);
+            },
+            error:function(response){
+
+                console.log(response);
+            }
+        });
+    }
+
+</script>
+
+
+</html>

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class LockMethodInterceptor {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
     private final static String DATA = "data";
 
@@ -47,7 +48,8 @@ public class LockMethodInterceptor {
         String value = UUID.randomUUID().toString();
         try {
 
-            Boolean success = redisTemplate.opsForValue().setIfAbsent(lockKey, value, lock.delaySeconds(), TimeUnit.SECONDS);
+            Boolean success = redisTemplate.opsForValue().setIfAbsent(lockKey, value);
+            redisTemplate.expire(lockKey,lock.delaySeconds(), TimeUnit.SECONDS);
             if (!success) {
                 throw new RuntimeException("重复提交");
             }
