@@ -69,7 +69,7 @@ public class NoRepeatSubmitAop {
             if (StringUtils.isEmpty(token)){
                 return "token 不存在";
             }
-            if (!redisTokenUtils.findToken(token)){
+            if (!redisTokenUtils.validToken(token)){
                 return "请勿重复提交";
             }
             Object o = pjp.proceed();
